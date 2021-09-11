@@ -1,0 +1,11 @@
+{
+    "name": "squirtle",
+    "type": ["water", "None"],
+    "base_hp": 44,
+    "base_atk": 48,
+    "base_def": 65,
+    "base_sp_atk": 50,
+    "base_sp_def": 64,
+    "base_speed": 43,
+    "moves": ["tackle"]
+}
