@@ -1,0 +1,8 @@
+{
+    "name": "earthquake",
+    "power": 100,
+    "type": "ground",
+    "attack type": "physical",
+    "pp": 10,
+    "accuracy": 100
+}
