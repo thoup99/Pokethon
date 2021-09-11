@@ -1,0 +1,75 @@
+{
+    "size": 6,
+    "1": {
+            "name": "Bulbasaur",
+            "level": 50,
+            "hp": 102,
+            "atk": 64,
+            "special atk": 80,
+            "def": 90,
+            "special def": 50,
+            "speed": 110,
+            "moves": ["tackle", "ember", "razor leaf", "earthquake"],
+            "types": ["grass", "bug"]
+        },    
+    "2": {
+            "name": "Charmander",
+            "level": 50,
+            "hp": 102,
+            "atk": 64,
+            "special atk": 80,
+            "def": 90,
+            "special def": 50,
+            "speed": 110,
+            "moves": ["tackle", "ember", "razor leaf", "earthquake"],
+            "types": ["ice", "water"]
+        },
+    "3": {
+            "name": "Wartortle",
+            "level": 50,
+            "hp": 102,
+            "atk": 64,
+            "special atk": 80,
+            "def": 90,
+            "special def": 50,
+            "speed": 110,
+            "moves": ["tackle", "ember", "razor leaf", "earthquake"],
+            "types": ["ice", "None"]
+        },
+    "4": {
+            "name": "Charizard",
+            "level": 50,
+            "hp": 102,
+            "atk": 64,
+            "special atk": 80,
+            "def": 90,
+            "special def": 50,
+            "speed": 110,
+            "moves": ["tackle", "ember", "razor leaf", "earthquake"],
+            "types": ["normal", "None"]
+        },
+    "5": {
+            "name": "Blastoise",
+            "level": 50,
+            "hp": 102,
+            "atk": 64,
+            "special atk": 80,
+            "def": 90,
+            "special def": 50,
+            "speed": 110,
+            "moves": ["tackle", "ember", "razor leaf", "earthquake"],
+            "types": ["fighting", "None"]
+        },
+    "6": {
+            "name": "Squirtle",
+            "level": 50,
+            "hp": 102,
+            "atk": 64,
+            "special atk": 80,
+            "def": 90,
+            "special def": 50,
+            "speed": 110,
+            "moves": ["tackle", "ember", "razor leaf", "earthquake"],
+            "types": ["bug", "None"]
+        }
+}
