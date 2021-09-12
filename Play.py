@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter.font import BOLD
 from PIL import ImageTk,Image
 from functools import partial
+import time
 from battle import Battle
 
 root = Tk()
@@ -18,7 +19,37 @@ pokeball_img = ImageTk.PhotoImage(Image.open('.\images\pokeball.png'))
 
 battle = ''
 
+faint_switch = False
 #Misc Func
+
+def turn():
+    global faint_switch
+    disable_all()
+    time.sleep(1)
+    battle.current_trainer += 1
+
+    if (battle.current_trainer == 2):
+        battle.do_phase()
+        battle.current_trainer = 0
+        #After each turn if a pokemon is fainted make the player choose a new one
+        if (battle.trainers[battle.current_trainer].pokemon[battle.trainers[battle.current_trainer].current_mon].is_fainted == True):
+            disable_all()
+            faint_switch = True
+            update_gui_pkm_switch()
+        elif(battle.trainers[battle.current_trainer + 1].pokemon[battle.trainers[battle.current_trainer + 1].current_mon].is_fainted == True):
+            disable_all()
+            battle.current_trainer = 1
+            faint_switch = True
+            update_gui_pkm_switch()
+    #ISSUE not locking out moves when selecting new pokemon
+    if(not battle.current_trainer == 2):
+        update_all_gui_info()
+
+
+
+def switch_check():
+    pass
+
 def disable_all():
     move1.config(state=DISABLED)
     move2.config(state=DISABLED)
@@ -56,57 +87,48 @@ def update_gui_pkm_pic():
 
 def update_gui_pkm_moves():
     moves = battle.trainers[battle.current_trainer].pokemon[battle.trainers[battle.current_trainer].current_mon].moves
-    move1.config(state=NORMAL)
-    move2.config(state=NORMAL)
-    move3.config(state=NORMAL)
-    move4.config(state=NORMAL)
     move1.config(text=moves[0].name+'  '+moves[0].type.upper()+'  '+str(moves[0].pp))
-    if (moves[0].pp < 1):
-        move1.config(state=DISABLED)
+    if (moves[0].pp > 0):
+        move1.config(state=NORMAL)
     move2.config(text=moves[1].name+'  '+moves[1].type.upper()+'  '+str(moves[1].pp))
-    if (moves[1].pp < 1):
-        move2.config(state=DISABLED)
+    if (moves[1].pp > 0):
+        move2.config(state=NORMAL)
     move3.config(text=moves[2].name+'  '+moves[2].type.upper()+'  '+str(moves[2].pp))
-    if (moves[2].pp < 1):
-        move3.config(state=DISABLED)
+    if (moves[2].pp > 0):
+        move3.config(state=NORMAL)
     move4.config(text=moves[3].name+'  '+moves[3].type.upper()+'  '+str(moves[3].pp))
-    if (moves[3].pp < 1):
-        move4.config(state=DISABLED)
+    if (moves[3].pp > 0):
+        move4.config(state=NORMAL)
 
 def update_gui_pkm_switch():
     pkmn = battle.trainers[battle.current_trainer].pokemon 
 
     change_mon_1.config(text=pkmn[0].name)
-    if (pkmn[0].is_fainted == True or battle.trainers[battle.current_trainer].current_mon == 0):
-        change_mon_1.config(state=DISABLED)
-    else: change_mon_1.config(state=NORMAL)
+    if (not (pkmn[0].is_fainted == True or battle.trainers[battle.current_trainer].current_mon == 0)):
+        change_mon_1.config(state=NORMAL)
 
     change_mon_2.config(text=pkmn[1].name)
-    if (pkmn[1].is_fainted == True or battle.trainers[battle.current_trainer].current_mon == 1):
-        change_mon_2.config(state=DISABLED)
-    else: change_mon_2.config(state=NORMAL)
+    if (not (pkmn[1].is_fainted == True or battle.trainers[battle.current_trainer].current_mon == 1)):
+        change_mon_2.config(state=NORMAL)
 
     change_mon_3.config(text=pkmn[2].name)
-    if (pkmn[2].is_fainted == True or battle.trainers[battle.current_trainer].current_mon == 2):
-        change_mon_3.config(state=DISABLED)
-    else: change_mon_3.config(state=NORMAL)
+    if (not (pkmn[2].is_fainted == True or battle.trainers[battle.current_trainer].current_mon == 2)):
+        change_mon_3.config(state=NORMAL)
 
     change_mon_4.config(text=pkmn[3].name)
-    if (pkmn[3].is_fainted == True or battle.trainers[battle.current_trainer].current_mon == 3):
-        change_mon_4.config(state=DISABLED)
-    else: change_mon_4.config(state=NORMAL)
+    if (not (pkmn[3].is_fainted == True or battle.trainers[battle.current_trainer].current_mon == 3)):
+        change_mon_4.config(state=NORMAL)
     
     change_mon_5.config(text=pkmn[4].name)
-    if (pkmn[4].is_fainted == True or battle.trainers[battle.current_trainer].current_mon == 4):
-        change_mon_5.config(state=DISABLED)
-    else: change_mon_5.config(state=NORMAL)
+    if (not (pkmn[4].is_fainted == True or battle.trainers[battle.current_trainer].current_mon == 4)):
+        change_mon_5.config(state=NORMAL)
     
     change_mon_6.config(text=pkmn[5].name)
-    if (pkmn[5].is_fainted == True or battle.trainers[battle.current_trainer].current_mon == 5):
-        change_mon_6.config(state=DISABLED)
-    else: change_mon_6.config(state=NORMAL)
+    if (not (pkmn[5].is_fainted == True or battle.trainers[battle.current_trainer].current_mon == 5)):
+        change_mon_6.config(state=NORMAL)
 
 def update_all_gui_info():
+    disable_all()
     update_gui_pkm_names()
     update_gui_pkm_pic()
     update_gui_pkm_moves()
@@ -125,10 +147,26 @@ def start_game():
         print("Failed to Create Teams")
 
 def select_move(movenum):
-    print(movenum)
+    battle.phase_data.append([battle.current_trainer, movenum])
+    turn()
 
 def switch_mon(mon_num):
-    print(mon_num)
+    global faint_switch
+    if (faint_switch == False):
+        battle.phase_data.append([battle.current_trainer, mon_num])
+        turn()
+    else:
+        battle.trainers[battle.current_trainer].current_mon = mon_num
+        if (battle.trainers[1].pokemon[battle.trainers[1].current_mon].is_fainted == True):
+            disable_all()
+            battle.current_trainer = 1
+            faint_switch = True
+            update_gui_pkm_switch()
+        if(battle.trainers[1].pokemon[battle.trainers[1].current_mon].is_fainted == False and battle.trainers[1].pokemon[battle.trainers[1].current_mon].is_fainted == False):
+            battle.current_trainer = 0
+            faint_switch == False
+            update_all_gui_info()
+
 
 #Emply Labels
 empty_label = Label(text='', bg=color_background)

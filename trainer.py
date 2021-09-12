@@ -22,7 +22,3 @@ class Trainer():
         randnum = random.randint(0, 100)
         if (randnum <= self.pokemon[self.current_mon].moves[move_num].accuracy):
             op_mon.take_damage(self.pokemon[self.current_mon], self.pokemon[self.current_mon].moves[move_num], weather)
-
-
-    def prt(self):
-        print(self.pokemon[1].moves[0].pp)
